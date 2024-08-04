@@ -1,16 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
+import { RegisterUserDto } from 'src/dto/auth.dto';
+import { User } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly jwtService: JwtService,
-    private readonly prisma: PrismaService,
+    private prisma: PrismaService,
+    private jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, pass: string): Promise<any> {
+  async validateUser(email: string, pass: string): Promise<User> {
     const user = await this.prisma.user.findUnique({ where: { email } });
     if (user && (await bcrypt.compare(pass, user.password))) {
       const { ...result } = user;
@@ -19,20 +21,22 @@ export class AuthService {
     return null;
   }
 
-  async login(user: any) {
-    const payload = { username: user.email, sub: user.id, role: user.role };
+  async register(registerUserDto: RegisterUserDto): Promise<User> {
+    const user = await this.prisma.user.create({
+      data: registerUserDto,
+    });
+    return user;
+  }
+
+  login(user: User) {
+    const payload = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    };
     return {
       access_token: this.jwtService.sign(payload),
     };
-  }
-
-  async register(data: any) {
-    const hashedPassword = await bcrypt.hash(data.password, 10);
-    return this.prisma.user.create({
-      data: {
-        ...data,
-        password: hashedPassword,
-      },
-    });
   }
 }

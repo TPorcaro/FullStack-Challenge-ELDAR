@@ -34,8 +34,9 @@ async function main() {
   for (let i = 0; i < 10; i++) {
     await prisma.task.create({
       data: {
-        name: `Task ${i + 1}`,
-        ownerId: users[i].id,
+        title: `Task ${i + 1}`,
+        userId: users[i].id,
+        description: 'Description' + i,
       },
     });
   }
@@ -43,7 +44,8 @@ async function main() {
   for (let i = 10; i < 15; i++) {
     await prisma.task.create({
       data: {
-        name: `Task ${i + 1}`,
+        title: `Task ${i + 1}`,
+        description: 'Description' + i,
       },
     });
   }
