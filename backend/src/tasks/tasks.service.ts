@@ -47,7 +47,6 @@ export class TasksService {
       return task;
     } catch (error) {
       if (error.code === 'P2025') {
-        // Prisma specific error code for not found
         throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
       }
       console.error('Error deleting task:', error);
@@ -73,7 +72,6 @@ export class TasksService {
       return new TaskWithOwnerDto(task);
     } catch (error) {
       if (error.code === 'P2025') {
-        // Prisma specific error code for not found
         throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
       }
       console.log(error);

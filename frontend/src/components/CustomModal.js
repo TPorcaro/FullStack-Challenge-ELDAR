@@ -16,7 +16,7 @@ const customStyles = {
         background: 'transparent',
         width: '100%',
         maxWidth: '600px',
-        inset: 'auto', // Para centrar el modal
+        inset: 'auto',
     },
 };
 
