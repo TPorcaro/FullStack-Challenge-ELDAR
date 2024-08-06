@@ -7,8 +7,8 @@
 
 1. **Clona el repositorio:**
 2. **Ejecutar ./start-project.sh**
-   
-
+3. **En el root del frontend crear archivo .env y poner REACT_APP_API_URL=http://localhost:5000**
+4. **En el root del backend crear archivo .env y poner JWT_SECRET=secret_random_key**
 Credenciales de los usuarios por defecto :
 1. admin@example.com/admin
 2. user1@example.com/user1
